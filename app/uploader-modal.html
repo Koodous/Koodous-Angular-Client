@@ -92,9 +92,12 @@
             <!-- End of Initial step -->
 
             <!-- Uploading -->
-            <div class="well well-lg text-muted uploader-box" ng-show="currentStep == 2 || currentStep == 3">
-                
-                <div class="alert alert-info text-center" ng-show="currentStep == 2">
+            <div class="well well-lg text-muted uploader-box" ng-show="currentStep == 2 || currentStep == 3">                
+                <div class="alert alert-danger text-center" ng-show="uploadError">
+                    <strong>Error!</strong> {{ uploadError }}
+                </div>
+
+                <div class="alert alert-info text-center" ng-show="currentStep == 2 && !uploadError">
                     Uploading APK
                 </div>
 
