@@ -122,7 +122,7 @@
             
 
             <li ng-show="$root.user.anon" class="mr">
-                <a href="/register" class="p0">
+                <a href="/register" class="p0" onclick="ga('send', 'event', 'Koodous', 'Header', 'Create your account');">
                     <button class="btn bg-green mt">
                         <i class="fa fa-user-plus"></i>
                         <span class="hidden-xs">Create your account</span>
@@ -130,7 +130,7 @@
                 </a>
             </li>
             <li ng-show="$root.user.anon" class="">
-                <a href="/login" class="p0 pr">
+                <a href="/login" class="p0 pr" onclick="ga('send', 'event', 'Koodous', 'Header', 'Authenticate');">
                     <button class="btn btn-info mt">
                         <i class="fa fa-user"></i>
                         <span class="hidden-xs">Authenticate</span>
@@ -142,13 +142,13 @@
                     <i class="fa fa-upload"></i>
                     <span class="hidden-xs" ng-show="$root.user.anon">Upload</span>
                 </button> -->
-                <button class="btn btn-info" href ng-click="openUploaderModal()" ng-class="{'btn-info mt mr':$root.user.anon, 'btn-link':!$root.user.anon}">
+                <button class="btn btn-info" href ng-click="openUploaderModal()" ng-class="{'btn-info mt mr':$root.user.anon, 'btn-link':!$root.user.anon}" onclick="ga('send', 'event', 'Koodous', 'Header', 'Upload');">
                     <i class="fa fa-upload"></i>
                     <span class="hidden-xs" ng-show="$root.user.anon">Upload</span>
                 </button>
             </li>
             <li ng-show="$root.user.username" class="mr">
-                <a href ng-click="logout()" target="_self">
+                <a href ng-click="logout()" target="_self" onclick="ga('send', 'event', 'Koodous', 'Header', 'Logout');">
                     <em class="fa fa-power-off"></em>
                 </a>
             </li>
