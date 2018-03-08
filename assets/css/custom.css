@@ -325,3 +325,12 @@ table.truncate-table td{
 .negative-vote{
     border: 2px solid #f47f7f;;
 }
+
+.sidebar-footer { 
+    margin: 24px; 
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+}
