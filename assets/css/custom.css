@@ -326,6 +326,8 @@ table.truncate-table td{
     border: 2px solid #f47f7f;;
 }
 
+.navbar-button { padding: 8px; }
+
 .sidebar-footer { 
     margin: 34px 24px 10px 24px; 
     height: 60px;
