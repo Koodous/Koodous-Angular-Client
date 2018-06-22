@@ -124,9 +124,10 @@ app.controller('HeaderCtrl', ["$scope", "$rootScope", "$location", "api", "$http
         });
     };
 
-    $interval(function() {
-        $rootScope.getUnreadNotifications();
-    }, 30000);
+    // Temporarily disable notifications
+    // $interval(function() {
+    //     $rootScope.getUnreadNotifications();
+    // }, 30000);
 
     $rootScope.getUnreadNotifications();
 
