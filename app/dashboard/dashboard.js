@@ -23,6 +23,7 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 
 	//Timeline
 	$scope.getActivity = function(){
+		console.log('getActivity()!');
 		//Last 24 hours uploads
 		api.getAPKs(false, {search:"created_on:>now-1d"}).success(function(response){
 			$rootScope.last24hApks = response.count;
@@ -91,19 +92,19 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 	$scope.$on("$destroy", function(event){
 		$interval.cancel(getActivityInterval);
 	});
-	//Cancel interval after 5 minutes
-	// $timeout(function(){
-	// 	try{
-	// 		$interval.cancel(getActivityInterval);
-	// 	}
-	// 	catch(e){}
-	// }, 300000);
+	//Cancel interval after 2 minutes
+	$timeout(function(){
+		try{
+			$interval.cancel(getActivityInterval);
+		}
+		catch(e){}
+	}, 120000);
 
 	$rootScope.$watch("user", function(newValue, oldValue){
 		if($rootScope.user && $rootScope.user.anon){
 			$rootScope.activityType = "global-timeline";
 			try{
-				// $interval.cancel(getActivityInterval);
+				$interval.cancel(getActivityInterval);
 			}
 			catch(e){}
 		}
@@ -115,7 +116,7 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 				$rootScope.activityType = "global-timeline";
 			}
 			try{
-				// $interval.cancel(getActivityInterval);
+				$interval.cancel(getActivityInterval);
 			}
 			catch(e){}
 		}
