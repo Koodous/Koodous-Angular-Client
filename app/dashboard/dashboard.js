@@ -23,7 +23,6 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 
 	//Timeline
 	$scope.getActivity = function(){
-		console.log('getActivity()!');
 		//Last 24 hours uploads
 		api.getAPKs(false, {search:"created_on:>now-1d"}).success(function(response){
 			$rootScope.last24hApks = response.count;
