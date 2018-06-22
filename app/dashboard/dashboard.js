@@ -91,19 +91,19 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 	$scope.$on("$destroy", function(event){
 		$interval.cancel(getActivityInterval);
 	});
-	//Cancel interval after 5 minutes
-	// $timeout(function(){
-	// 	try{
-	// 		$interval.cancel(getActivityInterval);
-	// 	}
-	// 	catch(e){}
-	// }, 300000);
+	//Cancel interval after 2 minutes
+	$timeout(function(){
+		try{
+			$interval.cancel(getActivityInterval);
+		}
+		catch(e){}
+	}, 120000);
 
 	$rootScope.$watch("user", function(newValue, oldValue){
 		if($rootScope.user && $rootScope.user.anon){
 			$rootScope.activityType = "global-timeline";
 			try{
-				// $interval.cancel(getActivityInterval);
+				$interval.cancel(getActivityInterval);
 			}
 			catch(e){}
 		}
@@ -115,7 +115,7 @@ angular.module('dashboard').controller('DashboardCtrl', ["$scope", "$rootScope",
 				$rootScope.activityType = "global-timeline";
 			}
 			try{
-				// $interval.cancel(getActivityInterval);
+				$interval.cancel(getActivityInterval);
 			}
 			catch(e){}
 		}
@@ -148,12 +148,12 @@ angular.module('dashboard').controller('LastApksCtrl', ["$scope", "$rootScope", 
 		$interval.cancel(latestApksInterval);
 	});
 	//Cancel interval after 5 minutes
-	// $timeout(function(){
-	// 	try{
-	// 		$interval.cancel(latestApksInterval);
-	// 	}
-	// 	catch(e){}
-	// }, 300000);
+	$timeout(function(){
+		try{
+			$interval.cancel(latestApksInterval);
+		}
+		catch(e){}
+	}, 300000);
 	$rootScope.$watch("user", function(){
 		if($rootScope.user && $rootScope.user.anon){
 			$rootScope.activityType = "global-timeline";
