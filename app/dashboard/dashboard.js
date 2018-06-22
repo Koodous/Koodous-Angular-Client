@@ -149,12 +149,12 @@ angular.module('dashboard').controller('LastApksCtrl', ["$scope", "$rootScope", 
 		$interval.cancel(latestApksInterval);
 	});
 	//Cancel interval after 5 minutes
-	// $timeout(function(){
-	// 	try{
-	// 		$interval.cancel(latestApksInterval);
-	// 	}
-	// 	catch(e){}
-	// }, 300000);
+	$timeout(function(){
+		try{
+			$interval.cancel(latestApksInterval);
+		}
+		catch(e){}
+	}, 300000);
 	$rootScope.$watch("user", function(){
 		if($rootScope.user && $rootScope.user.anon){
 			$rootScope.activityType = "global-timeline";
