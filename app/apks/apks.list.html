@@ -50,7 +50,7 @@
 							 </a>
 						  </p>
 					   </td>
-					   <td class="b0 wd-xs">
+					   <td class="b0 wd-xs">					   	
 						  <a href="/apks/{{ apk.sha256 }}">
 						  	  <img src="assets/img/dummy.png" alt="" class="img-responsive thumb64" ng-hide="apk.image">
 							  <img ng-src="{{ apk.image }}" onerror="this.src='assets/img/dummy.png'" alt="" class="img-responsive thumb64" ng-show="apk.image">
@@ -63,11 +63,15 @@
 							 	({{ apk.package_name }})
 							 </a>
 							 <span class="label label-danger ml" ng-show="apk.corrupted">Corrupted</span>
+							 <span class="label label-danger ml" ng-show="apk.detected">Detected</span>
 							 <a href="/apks?search=tag:{{tag}}" class="label label-info mr-sm" ng-repeat="tag in apk.tags">{{ tag }}</a>
 						  </p>
 						  <small class="text-muted">{{ apk.sha256 }}
 							 <br>{{ apk.created_on * 1000 | date:"medium" }} - <a href="/apks?search=developer:'{{ apk.company }}'" class="text-bold">{{ apk.company }}</a>
 						  </small>
+					   </td>
+					   <td class="b0 wd-xs text-center">
+						  <em ng-show="apk.detected" class="fa fa-2x fa-exclamation-triangle text-muted"></em>
 					   </td>
 					</tr>
 				 </tbody>
