@@ -1,636 +1,697 @@
 <div class="row" ng-show="gettingAnalysis">
-	<div class="col-md-12">Loading...</div>
+    <div class="col-md-12">Loading...</div>
 </div>
 
-<div class="row" ng-hide="gettingAnalysis">
-	<div class="col-md-2">
-		<div class="mb-boxes">
-			<div class="panel panel-default">
-				<div class="panel-body">
-					<ul class="nav nav-pills nav-stacked" ng-init="subSection = 'file'">
-						<li ng-class="{'active': subSection == 'file'}">
-							<a href="" ng-click="subSection = 'file'">
-								<em class="fa fa-fw fa-lg fa-file"></em>
-								<span>File information</span>
-							</a>
-						</li>
-						<li><hr></li>
-						<li ng-class="{'active': subSection == 'androguard'}">
-							<a href="" ng-click="subSection = 'androguard'">
-								<em class="fa fa-fw fa-lg fa-android"></em>
-								<span>Androguard</span>
-							</a>
-						</li>
-						<li><hr></li>
-						<li ng-class="{'active': subSection == 'network'}">
-							<a href="" ng-click="subSection = 'network'">
-								<em class="fa fa-fw fa-lg fa-globe"></em>
-								<span>Network</span>
-							</a>
-						</li>
-						<li><hr></li>
-						<li ng-class="{'active': subSection == 'droidbox'}">
-							<a href="" ng-click="subSection = 'droidbox'">
-								<em class="fa fa-fw fa-lg fa-gear"></em>
-								<span>Droidbox</span>
-							</a>
-						</li>
-						<li><hr></li>
-						<li ng-class="{'active': subSection == 'strings'}">
-							<a href="" ng-click="subSection = 'strings'; getApkStrings();">
-								<em class="fa fa-fw fa-lg fa-file-text-o"></em>
-								<span>Strings</span>
-							</a>
-						</li>
-						<li><hr></li>
-						<li ng-class="{'active': subSection == 'json'}">
-							<a href="" ng-click="subSection = 'json'">
-								<em class="fa fa-fw fa-lg fa-code"></em>
-								<span>JSON Format</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<button class="btn btn-block btn-primary" ng-click="downloadAnalysis()">
-			<i class="fa fa-download fa-fw"></i>
-			Download JSON Report
-		</button>
-	</div>
-	<div class="col-md-10">
-		<div ng-show="subSection == 'file'">
-			<h3>
-				<i class="fa fa-fw fa-file"></i>
-				File information
-			</h3>
-
-			<div class="row">
-				<div class="col-md-12 pl ml">
-					<table>
-						<tr>
-							<th>Size (bytes)</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.size }}</td>
-						</tr>
-						<tr>
-							<th>crc32</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.crc32 }}</td>
-						</tr>
-						<tr>
-							<th>md5</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.md5 }}</td>
-						</tr>
-						<tr>
-							<th>sha1</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha1 }}</td>
-						</tr>
-						<tr>
-							<th>ssdeep</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.ssdeep }}</td>
-						</tr>
-						<tr>
-							<th>sha256</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha256 }}</td>
-						</tr>
-						<tr>
-							<th>sha512</th>
-							<td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha512 }}</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</div>
-
-		<div ng-show="subSection == 'androguard'">
-			<h3>
-				<i class="fa fa-fw fa-android"></i>
-				Androguard
-			</h3>
-			
-			<uib-accordion>
-				<!-- General info -->
-				<uib-accordion-group>
-					<uib-accordion-heading>General info</uib-accordion-heading>
-						<ul class="list-unstyled">
-							<li>
-								<strong>Minimum SDK version: </strong>{{ apk.analysis.androguard.min_sdk_version }}
-							</li>
-							<li>
-								<strong>App name: </strong>{{ apk.analysis.androguard.app_name }}
-							</li>
-							<li>
-								<strong>Package name: </strong>{{ apk.analysis.androguard.package_name }}
-							</li>
-							<li>
-								<strong>Signature name: </strong>{{ apk.analysis.androguard.signature_name }}
-							</li>
-							<li>
-								<strong>Version code: </strong>{{ apk.analysis.androguard.version_code }}
-							</li>
-							<li>
-								<strong>Displayed version: </strong>{{ apk.analysis.androguard.displayed_version }}
-							</li>
-							<li>
-								<strong>Target SDK Version: </strong>{{ apk.analysis.androguard.target_sdk_version }}
-							</li>
-							<li>
-								<strong>Max SDK Version: </strong>{{ apk.analysis.androguard.max_sdk_version }}
-							</li>
-						</ul>
-				</uib-accordion-group>
-
-				<!-- Activities -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Activities ({{ apk.analysis.androguard.activities.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.activities track by $index">
-							{{ row }}
-							<span class="label label-info" ng-show="row == apk.analysis.androguard.main_activity">Main Activity</span>
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<!-- Receivers -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Receivers ({{ apk.analysis.androguard.receivers.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.receivers track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-			
-				<!-- New Permissions -->
-				<uib-accordion-group>
-					<uib-accordion-heading>New Permissions ({{ apk.analysis.androguard.new_permissions.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.new_permissions track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-			
-				<!-- Urls -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Urls ({{ apk.analysis.androguard.urls.length || 0 }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.urls track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-			
-				<!-- Services -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Services ({{ apk.analysis.androguard.services.length || 0 }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.services track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-			
-				<!-- Filters -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Filters ({{ apk.analysis.androguard.filters.length || 0 }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.filters track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-
-				<!-- Providers -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Providers ({{ apk.analysis.androguard.providers.length || 0 }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.providers track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group
-				
-				<!-- Permissions -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Permissions ({{ apk.analysis.androguard.permissions.length || 0}})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.androguard.permissions track by $index" ng-bind="row"></li>
-					</ul>
-				</uib-accordion-group>
-
-				<!-- Certificate -->
-				<uib-accordion-group>
-					<uib-accordion-heading>Certificate</uib-accordion-heading>
-					<table class="table">
-						<tbody>
-							<tr ng-repeat="(key, value) in apk.analysis.androguard.certificate track by $index">
-								<th>{{ key }}</th>
-								<td>
-									<a ng-href="/apks?search=cert:{{ value }}" ng-if="key == 'sha1'">{{ value }}</a>
-									<span ng-if="key != 'sha1'">{{ value }}</span>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</uib-accordion-group>
-
-				<!-- Functionalities -->
-				<hr>
-				<uib-accordion-group ng-repeat="(section, content) in apk.analysis.androguard.functionalities">
-					<uib-accordion-heading>Functionalities - {{ section }} ({{ content.length }})</uib-accordion-heading>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Code</th>
-								<th>Class</th>
-								<th>Method</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="row in content">
-								<td><code>{{ row.code }}</code></td>
-								<td>{{ row.class }}</td>
-								<td>{{ row.method }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</uib-accordion-group>
-			</uib-accordion>
-		</div>
-
-		<div ng-show="subSection == 'network'">
-			<h3>
-				<i class="fa fa-fw fa-globe"></i>
-				Network
-			</h3>
-
-			<uib-accordion>
-				<uib-accordion-group>
-					<uib-accordion-heading>HTTP ({{ apk.analysis.cuckoo.network.http.length }})</uib-accordion-heading>
-					<div ng-repeat="http_row in apk.analysis.cuckoo.network.http track by $index">
-						<h4>{{ http_row.host }}</h4>
-						<div class="pl">
-							<strong>Body:</strong>
-							{{ http_row.body }}
-							<br>
-
-							<strong>Uri:</strong>
-							{{ http_row.uri }}
-							<br>
-
-							<strong>User Agent:</strong>
-							{{ http_row.user-agent }}
-							<br>
-
-							<strong>Method:</strong>
-							{{ http_row.method }}
-							<br>
-
-							<strong>Port:</strong>
-							{{ http_row.port }}
-							<br>
-
-							<strong>Version:</strong>
-							{{ http_row.version }}
-							<br>
-
-							<strong>Path:</strong>
-							{{ http_row.path }}
-							<br>
-
-							<strong>Data:</strong><br>
-							<pre>{{ http_row.data }}</pre>
-						</div>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>SMTP ({{ apk.analysis.cuckoo.network.smtp.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.cuckoo.network.smtp track by $index">{{ row }}</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Hosts ({{ apk.analysis.cuckoo.network.hosts.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="row in apk.analysis.cuckoo.network.hosts track by $index">{{ row }}</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>DNS ({{ apk.analysis.cuckoo.network.dns.length }})</uib-accordion-heading>
-					<div ng-repeat="dns_row in apk.analysis.cuckoo.network.dns track by $index">
-						<div class="pl">
-							<strong>Request:</strong>
-							{{ dns_row.request }}
-							<br>
-
-							<strong>Type:</strong>
-							{{ dns_row.type }}
-							<br>
-
-							<strong ng-show="dns_row.answers.length">Answers:</strong>
-							<ul class="list-unstyled" ng-show="dns_row.answers.length">
-								<li ng-repeat="answer in dns_row.answers">
-									{{ answer.type }} - {{ answer.data }}
-								</li>
-							</ul>
-						</div>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Domains ({{ apk.analysis.cuckoo.network.domains.length }})</uib-accordion-heading>
-					<div ng-repeat="domain_row in apk.analysis.cuckoo.network.domains track by $index">
-						<div class="pl">
-							<strong>Domain:</strong>
-							{{ domain_row.domain }}
-							<br>
-
-							<strong>Domain:</strong>
-							{{ domain_row.ip }}
-						</div>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>IRC ({{ apk.analysis.cuckoo.network.irc.length }})</uib-accordion-heading>
-					<div ng-repeat="irc_row in apk.analysis.cuckoo.network.irc track by $index">
-						{{ irc_row }}
-						<hr>
-					</div>
-				</uib-accordion-group>
-			</uib-accordion>
-		</div>
-
-		<div ng-show="subSection == 'droidbox'">
-			<h3>
-				<i class="fa fa-fw fa-gear"></i>
-				Droidbox
-			</h3>
-
-			<uib-accordion>
-				<uib-accordion-group>
-					<uib-accordion-heading>Files written ({{ apk.analysis.droidbox.fileswritten.length }})</uib-accordion-heading>
-					<div ng-repeat="file in apk.analysis.droidbox.fileswritten track by $index" class="pl">
-						<strong>Name:</strong>
-						{{ file.name }}
-						<br>
-
-						<strong>Process ID:</strong>
-						{{ file.pid }}
-						<br>
-
-						<strong>Process Name:</strong>
-						{{ file.processname }}
-						<br>
-
-						<strong>Time:</strong>
-						{{ file.time }}
-						<br>
-
-						<strong>tid:</strong>
-						{{ file.tid }}
-						<br>
-
-						<strong>Data:</strong><br>
-						<pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Files read ({{ apk.analysis.droidbox.filesread.length }})</uib-accordion-heading>
-					<div ng-repeat="file in apk.analysis.droidbox.filesread track by $index" class="pl">
-						<strong>Name:</strong>
-						{{ file.name }}
-						<br>
-
-						<strong>Process ID:</strong>
-						{{ file.pid }}
-						<br>
-
-						<strong>Process Name:</strong>
-						{{ file.processname }}
-						<br>
-
-						<strong>Time:</strong>
-						{{ file.time }}
-						<br>
-
-						<strong>tid:</strong>
-						{{ file.tid }}
-						<br>
-
-						<strong>Data:</strong><br>
-						<pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>DNS ({{ apk.analysis.droidbox.dns.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="dns in apk.analysis.droidbox.dns track by $index">
-							{{ dns.hostname }} - {{ dns.ip }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Crypto Usage ({{ apk.analysis.droidbox.cryptousage.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="cryptousage in apk.analysis.droidbox.cryptousage track by $index">
-							{{ cryptousage }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>SMS ({{ apk.analysis.droidbox.sendsms.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="sendsms in apk.analysis.droidbox.sendsms track by $index">
-							{{ sendsms }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Service start ({{ apk.analysis.droidbox.servicestart.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="servicestart in apk.analysis.droidbox.servicestart track by $index">
-							{{ servicestart }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Send net ({{ apk.analysis.droidbox.sendnet.length }})</uib-accordion-heading>
-					<div ng-repeat="file in apk.analysis.droidbox.sendnet track by $index" class="pl">
-						<strong>Destination host:</strong>
-						{{ file.desthost }}
-						<br>
-
-						<strong>Destination port:</strong>
-						{{ file.destport }}
-						<br>
-
-						<strong>Process ID:</strong>
-						{{ file.pid }}
-						<br>
-
-						<strong>Process Name:</strong>
-						{{ file.processname }}
-						<br>
-
-						<strong>Time:</strong>
-						{{ file.time }}
-						<br>
-
-						<strong>tid:</strong>
-						{{ file.tid }}
-						<br>
-
-						<strong>Data:</strong><br>
-						<pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-				<uib-accordion-group>
-					<uib-accordion-heading>Recv net ({{ apk.analysis.droidbox.recvnet.length }})</uib-accordion-heading>
-					<div ng-repeat="file in apk.analysis.droidbox.recvnet track by $index" class="pl">
-						<strong>Source host:</strong>
-						{{ file.srchost }}
-						<br>
-
-						<strong>Source port:</strong>
-						{{ file.srcport }}
-						<br>
-
-						<strong>Process ID:</strong>
-						{{ file.pid }}
-						<br>
-
-						<strong>Process Name:</strong>
-						{{ file.processname }}
-						<br>
-
-						<strong>Time:</strong>
-						{{ file.time }}
-						<br>
-
-						<strong>tid:</strong>
-						{{ file.tid }}
-						<br>
-
-						<strong>Data:</strong><br>
-						<pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Libraries ({{ apk.analysis.droidbox.libraries.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="library in apk.analysis.droidbox.libraries track by $index">
-							{{ library }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Phonecalls ({{ apk.analysis.droidbox.phonecalls.length }})</uib-accordion-heading>
-					<ul class="list-unstyled">
-						<li ng-repeat="phonecall in apk.analysis.droidbox.phonecalls track by $index">
-							{{ phonecall }}
-						</li>
-					</ul>
-				</uib-accordion-group>
-
-				<uib-accordion-group>
-					<uib-accordion-heading>Dexcalls ({{ apk.analysis.droidbox.dexclass.length }})</uib-accordion-heading>
-					<div ng-repeat="file in apk.analysis.droidbox.dexclass track by $index" class="pl">
-						<strong>Process Name:</strong>
-						{{ file.processname }}
-						<br>
-
-						<strong>Process ID:</strong>
-						{{ file.pid }}
-						<br>
-
-						<strong>Path:</strong>
-						{{ file.path }}
-						<br>
-
-						<strong>Time:</strong>
-						{{ file.time }}
-						<br>
-
-						<strong>tid:</strong>
-						{{ file.tid }}
-						<br>
-
-						<hr>
-					</div>
-				</uib-accordion-group>
-			</uib-accordion>
-		</div>
-
-		<div ng-show="subSection == 'strings'">
-			<h3>
-				<i class="fa fa-fw fa-file-text-o"></i>
-				Strings
-				<div class="pull-right col-md-5 col-lg-5 col-xs-12 pl0 pr0">
-					<form ng-submit="filterStrings()">
-						<div class="input-group">
-							<input type="text" class="form-control input-sm" ng-model="stringsFilter" placeholder="Filter by...">
-							<span class="input-group-btn">
+<div class="row" ng-hide="gettingAnalysis" ng-if="limitReached || !user.username">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-show="!user.username">
+        <div class="text-center">
+            <h3 class="display-4">Login required</h3>
+            <p class="lead">You need to be logged in to access analysis. Log in or sign up for free!</p>
+            <p class="lead">
+                <a class="btn btn-green btn-lg" ng-href="/register" role="button">
+                    <i class="fa fa-user-plus"></i> Create your account
+                </a>
+                <a class="btn btn-primary btn-lg" ng-href="/login" role="button">
+                    <i class="fa fa-user"></i> Authenticate
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" ng-show="limitReached">
+        <div class="text-center">
+            <h3 class="display-4">Maximum analysis downloads Reached</h3>
+            <p class="lead">Sorry, you exceeded the maximum number of analysis downloads per day. To increase this
+                limit, please contact us to see which plan best fits your needs.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" ng-href="mailto:info@koodous.com" role="button">
+                    <i class="fa fa-envelope"></i> Contact us
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-hide="gettingAnalysis" ng-if="!limitReached && user.username">
+    <div class="col-md-2">
+        <div class="mb-boxes">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-stacked" ng-init="subSection = 'file'">
+                        <li ng-class="{'active': subSection == 'file'}">
+                            <a href="" ng-click="subSection = 'file'">
+                                <em class="fa fa-fw fa-lg fa-file"></em>
+                                <span>File information</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li ng-class="{'active': subSection == 'androguard'}">
+                            <a href="" ng-click="subSection = 'androguard'">
+                                <em class="fa fa-fw fa-lg fa-android"></em>
+                                <span>Androguard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li ng-class="{'active': subSection == 'network'}">
+                            <a href="" ng-click="subSection = 'network'">
+                                <em class="fa fa-fw fa-lg fa-globe"></em>
+                                <span>Network</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li ng-class="{'active': subSection == 'droidbox'}">
+                            <a href="" ng-click="subSection = 'droidbox'">
+                                <em class="fa fa-fw fa-lg fa-gear"></em>
+                                <span>Droidbox</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li ng-class="{'active': subSection == 'strings'}">
+                            <a href="" ng-click="subSection = 'strings'; getApkStrings();">
+                                <em class="fa fa-fw fa-lg fa-file-text-o"></em>
+                                <span>Strings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr>
+                        </li>
+                        <li ng-class="{'active': subSection == 'json'}">
+                            <a href="" ng-click="subSection = 'json'">
+                                <em class="fa fa-fw fa-lg fa-code"></em>
+                                <span>JSON Format</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-block btn-primary"
+           download="{{ apk.analysis.androguard.package_name + '.txt' || 'analysis.txt' }}" ng-href="{{ downloadUrl }}">
+            <i class="fa fa-download fa-fw"></i>
+            Download JSON Report
+        </a>
+    </div>
+    <div class="col-md-10">
+        <div ng-show="subSection == 'file'">
+            <h3>
+                <i class="fa fa-fw fa-file"></i>
+                File information
+            </h3>
+
+            <div class="row">
+                <div class="col-md-12 pl ml">
+                    <table>
+                        <tr>
+                            <th>Size (bytes)</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.size }}</td>
+                        </tr>
+                        <tr>
+                            <th>crc32</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.crc32 }}</td>
+                        </tr>
+                        <tr>
+                            <th>md5</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.md5 }}</td>
+                        </tr>
+                        <tr>
+                            <th>sha1</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha1 }}</td>
+                        </tr>
+                        <tr>
+                            <th>ssdeep</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.ssdeep }}</td>
+                        </tr>
+                        <tr>
+                            <th>sha256</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha256 }}</td>
+                        </tr>
+                        <tr>
+                            <th>sha512</th>
+                            <td class="p-sm">{{ apk.analysis.cuckoo.target.file.sha512 }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="subSection == 'androguard'">
+            <h3>
+                <i class="fa fa-fw fa-android"></i>
+                Androguard
+            </h3>
+
+            <uib-accordion>
+                <!-- General info -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>General info</uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li>
+                            <strong>Minimum SDK version: </strong>{{ apk.analysis.androguard.min_sdk_version }}
+                        </li>
+                        <li>
+                            <strong>App name: </strong>{{ apk.analysis.androguard.app_name }}
+                        </li>
+                        <li>
+                            <strong>Package name: </strong>{{ apk.analysis.androguard.package_name }}
+                        </li>
+                        <li>
+                            <strong>Signature name: </strong>{{ apk.analysis.androguard.signature_name }}
+                        </li>
+                        <li>
+                            <strong>Version code: </strong>{{ apk.analysis.androguard.version_code }}
+                        </li>
+                        <li>
+                            <strong>Displayed version: </strong>{{ apk.analysis.androguard.displayed_version }}
+                        </li>
+                        <li>
+                            <strong>Target SDK Version: </strong>{{ apk.analysis.androguard.target_sdk_version }}
+                        </li>
+                        <li>
+                            <strong>Max SDK Version: </strong>{{ apk.analysis.androguard.max_sdk_version }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Activities -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Activities ({{ apk.analysis.androguard.activities.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.activities track by $index">
+                            {{ row }}
+                            <span class="label label-info" ng-show="row == apk.analysis.androguard.main_activity">Main Activity</span>
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Receivers -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Receivers ({{ apk.analysis.androguard.receivers.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.receivers track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- New Permissions -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>New Permissions ({{ apk.analysis.androguard.new_permissions.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.new_permissions track by $index"
+                            ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Urls -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Urls ({{ apk.analysis.androguard.urls.length || 0 }})</uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.urls track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Services -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Services ({{ apk.analysis.androguard.services.length || 0 }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.services track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Filters -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Filters ({{ apk.analysis.androguard.filters.length || 0 }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.filters track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Providers -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Providers ({{ apk.analysis.androguard.providers.length || 0 }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.providers track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group
+
+                        <!-- Permissions -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Permissions ({{ apk.analysis.androguard.permissions.length || 0}})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.androguard.permissions track by $index" ng-bind="row"></li>
+                    </ul>
+                </uib-accordion-group>
+
+                <!-- Certificate -->
+                <uib-accordion-group>
+                    <uib-accordion-heading>Certificate</uib-accordion-heading>
+                    <table class="table">
+                        <tbody>
+                        <tr ng-repeat="(key, value) in apk.analysis.androguard.certificate track by $index">
+                            <th>{{ key }}</th>
+                            <td>
+                                <a ng-href="/apks?search=cert:{{ value }}" ng-if="key == 'sha1'">{{ value }}</a>
+                                <span ng-if="key != 'sha1'">{{ value }}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </uib-accordion-group>
+
+                <!-- Functionalities -->
+                <hr>
+                <uib-accordion-group ng-repeat="(section, content) in apk.analysis.androguard.functionalities">
+                    <uib-accordion-heading>Functionalities - {{ section }} ({{ content.length }})
+                    </uib-accordion-heading>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Class</th>
+                            <th>Method</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in content">
+                            <td><code>{{ row.code }}</code></td>
+                            <td>{{ row.class }}</td>
+                            <td>{{ row.method }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+
+        <div ng-show="subSection == 'network'">
+            <h3>
+                <i class="fa fa-fw fa-globe"></i>
+                Network
+            </h3>
+
+            <uib-accordion>
+                <uib-accordion-group>
+                    <uib-accordion-heading>HTTP ({{ apk.analysis.cuckoo.network.http.length }})</uib-accordion-heading>
+                    <div ng-repeat="http_row in apk.analysis.cuckoo.network.http track by $index">
+                        <h4>{{ http_row.host }}</h4>
+                        <div class="pl">
+                            <strong>Body:</strong>
+                            {{ http_row.body }}
+                            <br>
+
+                            <strong>Uri:</strong>
+                            {{ http_row.uri }}
+                            <br>
+
+                            <strong>User Agent:</strong>
+                            {{ http_row.user-agent }}
+                            <br>
+
+                            <strong>Method:</strong>
+                            {{ http_row.method }}
+                            <br>
+
+                            <strong>Port:</strong>
+                            {{ http_row.port }}
+                            <br>
+
+                            <strong>Version:</strong>
+                            {{ http_row.version }}
+                            <br>
+
+                            <strong>Path:</strong>
+                            {{ http_row.path }}
+                            <br>
+
+                            <strong>Data:</strong><br>
+                            <pre>{{ http_row.data }}</pre>
+                        </div>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>SMTP ({{ apk.analysis.cuckoo.network.smtp.length }})</uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.cuckoo.network.smtp track by $index">{{ row }}</li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Hosts ({{ apk.analysis.cuckoo.network.hosts.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="row in apk.analysis.cuckoo.network.hosts track by $index">{{ row }}</li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>DNS ({{ apk.analysis.cuckoo.network.dns.length }})</uib-accordion-heading>
+                    <div ng-repeat="dns_row in apk.analysis.cuckoo.network.dns track by $index">
+                        <div class="pl">
+                            <strong>Request:</strong>
+                            {{ dns_row.request }}
+                            <br>
+
+                            <strong>Type:</strong>
+                            {{ dns_row.type }}
+                            <br>
+
+                            <strong ng-show="dns_row.answers.length">Answers:</strong>
+                            <ul class="list-unstyled" ng-show="dns_row.answers.length">
+                                <li ng-repeat="answer in dns_row.answers">
+                                    {{ answer.type }} - {{ answer.data }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Domains ({{ apk.analysis.cuckoo.network.domains.length }})
+                    </uib-accordion-heading>
+                    <div ng-repeat="domain_row in apk.analysis.cuckoo.network.domains track by $index">
+                        <div class="pl">
+                            <strong>Domain:</strong>
+                            {{ domain_row.domain }}
+                            <br>
+
+                            <strong>Domain:</strong>
+                            {{ domain_row.ip }}
+                        </div>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>IRC ({{ apk.analysis.cuckoo.network.irc.length }})</uib-accordion-heading>
+                    <div ng-repeat="irc_row in apk.analysis.cuckoo.network.irc track by $index">
+                        {{ irc_row }}
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+
+        <div ng-show="subSection == 'droidbox'">
+            <h3>
+                <i class="fa fa-fw fa-gear"></i>
+                Droidbox
+            </h3>
+
+            <uib-accordion>
+                <uib-accordion-group>
+                    <uib-accordion-heading>Files written ({{ apk.analysis.droidbox.fileswritten.length }})
+                    </uib-accordion-heading>
+                    <div ng-repeat="file in apk.analysis.droidbox.fileswritten track by $index" class="pl">
+                        <strong>Name:</strong>
+                        {{ file.name }}
+                        <br>
+
+                        <strong>Process ID:</strong>
+                        {{ file.pid }}
+                        <br>
+
+                        <strong>Process Name:</strong>
+                        {{ file.processname }}
+                        <br>
+
+                        <strong>Time:</strong>
+                        {{ file.time }}
+                        <br>
+
+                        <strong>tid:</strong>
+                        {{ file.tid }}
+                        <br>
+
+                        <strong>Data:</strong><br>
+                        <pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Files read ({{ apk.analysis.droidbox.filesread.length }})
+                    </uib-accordion-heading>
+                    <div ng-repeat="file in apk.analysis.droidbox.filesread track by $index" class="pl">
+                        <strong>Name:</strong>
+                        {{ file.name }}
+                        <br>
+
+                        <strong>Process ID:</strong>
+                        {{ file.pid }}
+                        <br>
+
+                        <strong>Process Name:</strong>
+                        {{ file.processname }}
+                        <br>
+
+                        <strong>Time:</strong>
+                        {{ file.time }}
+                        <br>
+
+                        <strong>tid:</strong>
+                        {{ file.tid }}
+                        <br>
+
+                        <strong>Data:</strong><br>
+                        <pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>DNS ({{ apk.analysis.droidbox.dns.length }})</uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="dns in apk.analysis.droidbox.dns track by $index">
+                            {{ dns.hostname }} - {{ dns.ip }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Crypto Usage ({{ apk.analysis.droidbox.cryptousage.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="cryptousage in apk.analysis.droidbox.cryptousage track by $index">
+                            {{ cryptousage }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>SMS ({{ apk.analysis.droidbox.sendsms.length }})</uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="sendsms in apk.analysis.droidbox.sendsms track by $index">
+                            {{ sendsms }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Service start ({{ apk.analysis.droidbox.servicestart.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="servicestart in apk.analysis.droidbox.servicestart track by $index">
+                            {{ servicestart }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Send net ({{ apk.analysis.droidbox.sendnet.length }})</uib-accordion-heading>
+                    <div ng-repeat="file in apk.analysis.droidbox.sendnet track by $index" class="pl">
+                        <strong>Destination host:</strong>
+                        {{ file.desthost }}
+                        <br>
+
+                        <strong>Destination port:</strong>
+                        {{ file.destport }}
+                        <br>
+
+                        <strong>Process ID:</strong>
+                        {{ file.pid }}
+                        <br>
+
+                        <strong>Process Name:</strong>
+                        {{ file.processname }}
+                        <br>
+
+                        <strong>Time:</strong>
+                        {{ file.time }}
+                        <br>
+
+                        <strong>tid:</strong>
+                        {{ file.tid }}
+                        <br>
+
+                        <strong>Data:</strong><br>
+                        <pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+                <uib-accordion-group>
+                    <uib-accordion-heading>Recv net ({{ apk.analysis.droidbox.recvnet.length }})</uib-accordion-heading>
+                    <div ng-repeat="file in apk.analysis.droidbox.recvnet track by $index" class="pl">
+                        <strong>Source host:</strong>
+                        {{ file.srchost }}
+                        <br>
+
+                        <strong>Source port:</strong>
+                        {{ file.srcport }}
+                        <br>
+
+                        <strong>Process ID:</strong>
+                        {{ file.pid }}
+                        <br>
+
+                        <strong>Process Name:</strong>
+                        {{ file.processname }}
+                        <br>
+
+                        <strong>Time:</strong>
+                        {{ file.time }}
+                        <br>
+
+                        <strong>tid:</strong>
+                        {{ file.tid }}
+                        <br>
+
+                        <strong>Data:</strong><br>
+                        <pre style="max-height: 200px; overflow:auto;">{{ file.data }}</pre>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Libraries ({{ apk.analysis.droidbox.libraries.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="library in apk.analysis.droidbox.libraries track by $index">
+                            {{ library }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Phonecalls ({{ apk.analysis.droidbox.phonecalls.length }})
+                    </uib-accordion-heading>
+                    <ul class="list-unstyled">
+                        <li ng-repeat="phonecall in apk.analysis.droidbox.phonecalls track by $index">
+                            {{ phonecall }}
+                        </li>
+                    </ul>
+                </uib-accordion-group>
+
+                <uib-accordion-group>
+                    <uib-accordion-heading>Dexcalls ({{ apk.analysis.droidbox.dexclass.length }})
+                    </uib-accordion-heading>
+                    <div ng-repeat="file in apk.analysis.droidbox.dexclass track by $index" class="pl">
+                        <strong>Process Name:</strong>
+                        {{ file.processname }}
+                        <br>
+
+                        <strong>Process ID:</strong>
+                        {{ file.pid }}
+                        <br>
+
+                        <strong>Path:</strong>
+                        {{ file.path }}
+                        <br>
+
+                        <strong>Time:</strong>
+                        {{ file.time }}
+                        <br>
+
+                        <strong>tid:</strong>
+                        {{ file.tid }}
+                        <br>
+
+                        <hr>
+                    </div>
+                </uib-accordion-group>
+            </uib-accordion>
+        </div>
+
+        <div ng-show="subSection == 'strings'">
+            <h3>
+                <i class="fa fa-fw fa-file-text-o"></i>
+                Strings
+                <div class="pull-right col-md-5 col-lg-5 col-xs-12 pl0 pr0">
+                    <form ng-submit="filterStrings()">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" ng-model="stringsFilter"
+                                   placeholder="Filter by...">
+                            <span class="input-group-btn">
 								<button class="btn btn-default btn-sm" type="submit">Filter</button>
 							</span>
-						</div>
-					</form>
-				</div>
-				<div class="clearfix"></div>
-			</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="clearfix"></div>
+            </h3>
 
-			<div ng-show="gettingStrings" class="text-center">
-				<div class="col-md-6 col-md-offset-3">
-					<h3>
-						Loading strings. This can take several minutes.
-					</h3>
-					<div class="progress">
-						<div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%"><span class="sr-only">45% Complete</span></div>
-					</div>
-				</div>
-			</div>
+            <div ng-show="gettingStrings" class="text-center">
+                <div class="col-md-6 col-md-offset-3">
+                    <h3>
+                        Loading strings. This can take several minutes.
+                    </h3>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
+                            <span class="sr-only">45% Complete</span></div>
+                    </div>
+                </div>
+            </div>
 
-			<div style="max-height: 500px; overflow-y:auto;">
-				<table class="table table-striped">
-					<tbody>
-						<tr ng-repeat="string in strings track by $index">
-							<td style="padding:4px 4px 4px 10px">
-								{{ string }}
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- <pre class="mt" style="background:white; max-height: 500px;" ng-show="!gettingStrings">{{ strings }}</pre> -->
+            <div style="max-height: 500px; overflow-y:auto;">
+                <table class="table table-striped">
+                    <tbody>
+                    <tr ng-repeat="string in strings track by $index">
+                        <td style="padding:4px 4px 4px 10px">
+                            {{ string }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <pre class="mt" style="background:white; max-height: 500px;" ng-show="!gettingStrings">{{ strings }}</pre> -->
 
-			<div class="row" ng-show="!gettingStrings">
-				<div class="pull-right text-right pr">
-					<uib-pagination total-items="totalStrings" items-per-page="stringsPerPage" ng-model="currentStringsPage" ng-change="stringsPageChanged()" max-size="5" class="pagination-sm" boundary-links="true"></uib-pagination>
-				</div>
-			</div>
-		</div>
+            <div class="row" ng-show="!gettingStrings">
+                <div class="pull-right text-right pr">
+                    <uib-pagination total-items="totalStrings" items-per-page="stringsPerPage"
+                                    ng-model="currentStringsPage" ng-change="stringsPageChanged()" max-size="5"
+                                    class="pagination-sm" boundary-links="true"></uib-pagination>
+                </div>
+            </div>
+        </div>
 
-		<div ng-show="subSection == 'json'">
-			<h3>
-				<i class="fa fa-fw fa-code"></i>
-				JSON Format
-			</h3>
+        <div ng-show="subSection == 'json'">
+            <h3>
+                <i class="fa fa-fw fa-code"></i>
+                JSON Format
+            </h3>
 
-			<pre ng-bind-html="apk.analysis_json | prettify" class="prettyjson"></pre>
-		</div>
-	</div>
+            <pre ng-bind-html="apk.analysis_json | prettify" class="prettyjson"></pre>
+        </div>
+    </div>
 </div>

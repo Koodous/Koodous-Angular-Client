@@ -259,6 +259,12 @@ app.controller('FeedbackModalController', ["$http", "$uibModalInstance", "$scope
     };
 }]);
 
+app.controller('LimitReachedModalController', ["$http", "$uibModalInstance", "$scope", function($http, $uibModalInstance, $scope) {
+    $scope.cancel = function() {
+        $uibModalInstance.close();
+    };
+}]);
+
 app.controller('NGUploaderController', ["$scope", "$uibModalInstance", "api", "$upload", "$rootScope", function($scope, $uibModalInstance, api, $upload, $rootScope){
     $scope.currentStep = 1;
     $scope.existingApk = false;

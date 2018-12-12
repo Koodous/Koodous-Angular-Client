@@ -129,7 +129,7 @@ angular.module('app').filter('prettify', function () {
     return syntaxHighlight;
 });
 
-angular.module('apks').controller('APKDetailCtrl', ["$scope", "$rootScope", "api", "$stateParams", "$location", function($scope, $rootScope, api, $stateParams, $location){
+angular.module('apks').controller('APKDetailCtrl', ["$scope", "$rootScope", "api", "$stateParams", "$location", "$uibModal", function($scope, $rootScope, api, $stateParams, $location, $uibModal){
 	$scope.apk = false;
 	$rootScope.section = "apks";
 	$scope.subsection = 'main';
@@ -170,8 +170,27 @@ angular.module('apks').controller('APKDetailCtrl', ["$scope", "$rootScope", "api
 
 	$scope.download = function(){
 		var sha256 = $stateParams.sha256;
-		api.downloadAPK(sha256);
+		api.downloadAPK(sha256)
+			.then(function(response){
+				if(response.data.download_url){
+					document.location.href = response.data.download_url;
+				}
+				else
+				{
+					alert("No hay url de descarga");
+				}
+			})
+			.catch(function (response) {
+				$scope.openLimitReachedModal();
+            });
 	};
+
+	$scope.openLimitReachedModal = function() {
+        var modalInstance = $uibModal.open({
+            templateUrl: '/app/limit-reached-modal.html?' + window.appVersion,
+            controller: 'LimitReachedModalController',
+        });
+    };
 
 	$scope.analyze = function(){
 		$scope.analyzing = true;
@@ -340,32 +359,37 @@ angular.module('apks').controller('APKAnalysisController', ["$scope", "api", "$s
 	$scope.totalStrings = 0;
 	$scope.stringsPerPage = 100;
 	$scope.currentStringsPage = 1;
-	$scope.downloadAnalysis = function(){
-		window.open( "data:text/plain,"+$scope.encodedAnalysis );
-	};
-	$scope.getApkAnalysis = function(){
-		$scope.gettingAnalysis = true;
-		api.getApkAnalysis($stateParams.sha256, true).success(function(response){
-			
-			//Download analysis url
-			var content = encodeURIComponent(JSON.stringify(response, undefined, 4));
-			$scope.encodedAnalysis = encodeURIComponent(JSON.stringify(response, undefined, 4));
-			var blob = new Blob([ content ], { type : 'application/json' });
-			$scope.downloadUrl = (window.URL || window.webkitURL).createObjectURL( blob );
 
-			//Remove status, sha256 and scanning_date
-			delete response.status; 
-			delete response.sha256;
-			delete response.scanning_date;
+    $scope.getApkAnalysis = function () {
+        $scope.gettingAnalysis = true;
+        $scope.limitReached = false;
+        api.getApkAnalysis($stateParams.sha256, true)
+            .then(function (response) {
 
-			$scope.$parent.apk.analysis = response;
+                //Download analysis url
+                var content = JSON.stringify(response.data, undefined, 4);
+                var blob = new Blob([content], {type: 'text/plain'});
+                $scope.downloadUrl = (window.URL || window.webkitURL).createObjectURL(blob);
 
-			$scope.$parent.apk.analysis_json = JSON.stringify(response, undefined, 4);
-			
-		}).finally(function(){
-			$scope.gettingAnalysis = false;
-		});
-	};
+                //Remove status, sha256 and scanning_date
+                delete response.data.status;
+                delete response.data.sha256;
+                delete response.data.scanning_date;
+
+                $scope.$parent.apk.analysis = response.data;
+
+                $scope.$parent.apk.analysis_json = JSON.stringify(response.data, undefined, 4);
+
+            })
+			.catch(function (response) {
+				if (response.status == 429) {
+					$scope.limitReached = true;
+				}
+            })
+            .finally(function () {
+                $scope.gettingAnalysis = false;
+            });
+    };
 	$scope.getApkAnalysis();
 	$scope.getApkStrings = function(){
 		$scope.gettingStrings = true;

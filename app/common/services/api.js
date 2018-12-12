@@ -496,15 +496,8 @@ angular.module('services.api', [])
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/apks/' + sha256 + '/download',
-        }).success(function(data){
-            if(data.download_url){
-                document.location.href = data.download_url;
-            }
-            else
-            {
-                alert("No hay url de descarga");
-            }
         });
+        return request;
     };
 
     KoodousAPI.getAPKDetections = function(sha256){

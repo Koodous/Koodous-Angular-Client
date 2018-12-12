@@ -1,5 +1,5 @@
 angular.module('app')
-.config(["$httpProvider", function ($httpProvider) {
+.config(["$httpProvider", "$compileProvider", function ($httpProvider, $compileProvider) {
     $httpProvider.interceptors.push(["$q", "$rootScope", "$injector", function ($q, $rootScope, $injector) {
         //Peticiones que no requieren autenticación
         var excludeAuthUrls = [
@@ -28,25 +28,27 @@ angular.module('app')
                 return config || $q.when(config);
 
             },
-            'responseError': function(rejection){
-                /**
-                * Manejador de errores globales
-                **/
-                if (rejection.status == 429){
-                    $rootScope.tooManyRequests = true;
-                    $rootScope.secondsToWait = 0;
-                    
-                    //Extract seconds to wait
-                    try{
-                        var patt = new RegExp(/\d{1,2}/);
-                        $rootScope.secondsToWait = patt.exec(rejection.data.detail)[0];
-                    }
-                    catch(e){
-                        console.log(e);
-                    }
-                }
-                return $q.reject(rejection);
-            }
+            // 'responseError': function(rejection){
+            //     /**
+            //     * Manejador de errores globales
+            //     **/
+            //     if (rejection.status == 429){
+            //         $rootScope.tooManyRequests = true;
+            //         $rootScope.secondsToWait = 0;
+            //
+            //         //Extract seconds to wait
+            //         try{
+            //             var patt = new RegExp(/\d{1,2}/);
+            //             console.log('Rejection', rejection);
+            //             $rootScope.secondsToWait = patt.exec(rejection.data.detail)[0];
+            //         }
+            //         catch(e){
+            //             console.log(e);
+            //         }
+            //     }
+            //     return $q.reject(rejection);
+            // }
         };
     }]);
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
 }]);
