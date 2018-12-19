@@ -11,7 +11,7 @@
 			</div>
 			<div class="media-body clearfix" ng-hide="comment.editing">
 				<a href="/analysts/{{ comment.author.username }}" class="media-heading text-primary">{{ comment.author.username }}</a>,
-				<small am-time-ago="comment.created_on*1000" title="{{ comment.created_on*1000 | date:'medium' }}"></small>
+				<small am-time-ago="comment.created_on*1000" title="{{ comment.created_on*1000 | date:'medium' : '+0000' }}"></small>
 
 				<p class="mb-sm" style="white-space: pre-line;" ng-bind-html="comment.text | linky:'_blank' | hashtags | mentions"></p>
 

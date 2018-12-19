@@ -59,7 +59,7 @@
                            </a>
                         </span>
                      </p>
-                     <p class="text-muted" am-time-ago="row.created_on*1000" title="{{ row.created_on*1000 | date:'medium' }}"></p>
+                     <p class="text-muted" am-time-ago="row.created_on*1000" title="{{ row.created_on*1000 | date:'medium' : '+0000' }}"></p>
                   </div>
                   <div class="col thumb64" ng-show="row.apk">
                      <a href="/apks/{{ row.apk.sha256 }}">

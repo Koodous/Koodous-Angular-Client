@@ -28,7 +28,7 @@
 											<img src="/assets/img/default_avatar.png" alt="Avatar" class="img-circle" style="height:20px; width:20px;" ng-hide="analyst.avatar_url">
 										</a>
 										<span class="pl-sm">
-											Modified by <a href="/analysts/{{ analyst.username }}">{{ analyst.username }}</a> <span am-time-ago="ruleset.modified_on*1000" title="{{ ruleset.modified_on*1000 | date:'medium' }}"></span>
+											Modified by <a href="/analysts/{{ analyst.username }}">{{ analyst.username }}</a> <span am-time-ago="ruleset.modified_on*1000" title="{{ ruleset.modified_on*1000 | date:'medium' : '+0000' }}"></span>
 										</span>
 									</small>
 								</div>

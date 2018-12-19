@@ -57,19 +57,19 @@
 
 			<div class="col pl" ng-show="notification.type=='ruleset'">
 				<a href="/apks/{{ notification.apk.sha256 }}">{{ notification.apk.app || "Unknown app name" }}</a> has matches for your ruleset <a href="/my_rulesets/{{ notification.ruleset.id }}">{{ notification.ruleset.name }}</a>
-				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 			</div>
 			<div class="col pl" ng-show="notification.type=='socialaccepted' || notification.type=='socialrejected'">
 				Your ruleset <a href="/my_rulesets/{{ notification.ruleset.id }}">{{ notification.ruleset.name}}</a> has been 
 				<span ng-show="notification.type=='socialaccepted'" class="text-success">accepted as social ruleset.</span>
 				<span ng-show="notification.type=='socialrejected'" class="text-danger">rejected as social ruleset.</span>
 
-				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 			</div>
 			<div class="col pl" ng-show="notification.type=='rulesetvoteup' || notification.type=='rulesetvotedown'">
 				<a href="/analysts/{{ notification.analyst_ref.username }}">{{ notification.analyst_ref.username }} </a> has given you a
 				<span ng-show="notification.type == 'rulesetvoteup'" class="text-success">positive vote</span> <span ng-show="notification.type == 'rulesetvotedown'" class="text-danger">negative vote</span> on your ruleset <a href="/rulesets/{{ notification.ruleset.id }}">{{ notification.ruleset.name}}</a>
-				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 			</div>
 			<div class="col pl" ng-show="notification.type=='comment' || notification.type=='apkcomment' || notification.type=='rulesetcomment'">
 				<p class="m0">
@@ -79,13 +79,13 @@
 
 					<a href="/rulesets/{{ notification.ruleset.id }}" ng-show="notification.type=='rulesetcomment'">{{ notification.ruleset.name}}</a>
 
-					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 				</p>
 			</div>
 			<div class="col pl" ng-show="notification.type=='voteagainst'">
 				<p class="m0">
 					<a href="/analysts/{{ notification.analyst_ref.username }}">{{ notification.analyst_ref.username }} </a> has voted the opposite than you in <a href="/apks/{{ notification.apk.sha256 }}">{{ notification.apk.app || "Unknown app name" }}</a>
-					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 				</p>
 			</div>
 			<div class="col pl" ng-show="notification.type=='analysis'">
@@ -94,12 +94,12 @@
 					<a href="/apks/{{ notification.apk.sha256 }}">{{ notification.apk.app || "Unknown app name" }}</a> has been completed.
 				</span>
 				
-				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+				<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 			</div>
 			<div class="col pl" ng-show="notification.type=='follow'">
 				<p class="m0">
 					<a href="/analysts/{{ notification.analyst_ref.username }}">{{ notification.analyst_ref.username }} </a> is following you
-					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 				</p>
 			</div>
 			<div class="col pl" ng-show="notification.type=='apkmention' || notification.type=='rulesetmention'">
@@ -109,7 +109,7 @@
 
 					<a href="/rulesets/{{ notification.ruleset.id }}" ng-show="notification.type=='rulesetmention'">{{ notification.ruleset.name}}</a>
 
-					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' }}"></small>
+					<small class="text-muted" am-time-ago="notification.created_on*1000" title="{{ notification.created_on*1000 | date:'medium' : '+0000' }}"></small>
 				</p>
 			</div>
 			<div class="col pl pull-right">

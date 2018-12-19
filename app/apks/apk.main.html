@@ -17,7 +17,7 @@
 	</div>
 	<div class="meta-info col-md-2">
 		<div class="title">Date added</div>
-		<div class="content">{{ apk.created_on * 1000 | date:"medium" }}</div>
+		<div class="content">{{ apk.created_on * 1000 | date:'medium' : '+0000' }}</div>
 	</div>
 	<div class="meta-info col-md-2">
 		<div class="title">APK size</div>

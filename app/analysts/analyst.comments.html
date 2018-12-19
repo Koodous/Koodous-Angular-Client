@@ -8,7 +8,7 @@
 					<img ng-src="/assets/img/default_avatar.png" alt="Image" class="media-object img-circle thumb32" ng-hide="comment.author.avatar_url">
 				</div>
 				<div class="media-body clearfix">
-					<small class="pull-right ng-binding">{{ comment.created_on*1000|date:"medium" }}</small>
+					<small class="pull-right ng-binding">{{ comment.created_on*1000|date:'medium' : '+0000' }}</small>
 					<strong class="media-heading text-primary ng-binding">
 						{{ comment.author.username }}
 					</strong>

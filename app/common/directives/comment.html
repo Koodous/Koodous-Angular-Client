@@ -4,7 +4,7 @@
 	</div>
 	<div class="comment-details">
 		<div class="pull-right">
-			{{ comment.created_on*1000 | date:'medium' }} -
+			{{ comment.created_on*1000 | date:'medium' : '+0000' }} -
 			<a href="#">{{ comment.author.username }}</a>
 		</div>
 		<div class="clearfix"></div>

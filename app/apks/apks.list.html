@@ -67,7 +67,7 @@
 							 <a href="/apks?search=tag:{{tag}}" class="label label-info mr-sm" ng-repeat="tag in apk.tags">{{ tag }}</a>
 						  </p>
 						  <small class="text-muted">{{ apk.sha256 }}
-							 <br>{{ apk.created_on * 1000 | date:"medium" }} - <a href="/apks?search=developer:'{{ apk.company }}'" class="text-bold">{{ apk.company }}</a>
+							 <br>{{ apk.created_on * 1000 | date:'medium' : '+0000' }} - <a href="/apks?search=developer:'{{ apk.company }}'" class="text-bold">{{ apk.company }}</a>
 						  </small>
 					   </td>
 					   <td class="b0 wd-xs text-center">
