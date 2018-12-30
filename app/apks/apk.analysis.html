@@ -640,7 +640,7 @@
                 <div class="pull-right col-md-5 col-lg-5 col-xs-12 pl0 pr0">
                     <form ng-submit="filterStrings()">
                         <div class="input-group">
-                            <input type="text" class="form-control input-sm" ng-model="stringsFilter"
+                            <input type="text" ng-model="$parent.stringsFilter" name="stringsFilter" class="form-control input-sm"
                                    placeholder="Filter by...">
                             <span class="input-group-btn">
 								<button class="btn btn-default btn-sm" type="submit">Filter</button>
