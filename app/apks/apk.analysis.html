@@ -679,7 +679,7 @@
             <div class="row" ng-show="!gettingStrings">
                 <div class="pull-right text-right pr">
                     <uib-pagination total-items="totalStrings" items-per-page="stringsPerPage"
-                                    ng-model="currentStringsPage" ng-change="stringsPageChanged()" max-size="5"
+                                    ng-model="$parent.currentStringsPage" ng-change="stringsPageChanged()" max-size="5"
                                     class="pagination-sm" boundary-links="true"></uib-pagination>
                 </div>
             </div>
