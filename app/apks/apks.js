@@ -391,23 +391,6 @@ angular.module('apks').controller('APKAnalysisController', ["$scope", "api", "$s
             });
     };
     $scope.getApkAnalysis();
-    $scope.getApkStrings = function () {
-        $scope.gettingStrings = true;
-        api.getApkStrings($stateParams.sha256, $scope.currentStringsPage, $scope.stringsPerPage = 100, {search: $scope.stringsFilter})
-            .success(function (response) {
-                $scope.strings = response.strings;
-                $scope.totalStrings = response.count;
-            }).finally(function () {
-            $scope.gettingStrings = false;
-        });
-    };
-    $scope.stringsPageChanged = function () {
-        $scope.getApkStrings();
-    };
-    $scope.filterStrings = function () {
-        $scope.currentStringsPage = 1;
-        $scope.getApkStrings();
-    }
 }]);
 angular.module('apks').controller('APKMetadataController', ["$scope", "api", "$stateParams", function ($scope, api, $stateParams) {
     $scope.$parent.subsection = 'metadata';

@@ -73,15 +73,6 @@
                         <li>
                             <hr>
                         </li>
-                        <li ng-class="{'active': subSection == 'strings'}">
-                            <a href="" ng-click="subSection = 'strings'; getApkStrings();">
-                                <em class="fa fa-fw fa-lg fa-file-text-o"></em>
-                                <span>Strings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr>
-                        </li>
                         <li ng-class="{'active': subSection == 'json'}">
                             <a href="" ng-click="subSection = 'json'">
                                 <em class="fa fa-fw fa-lg fa-code"></em>
@@ -631,58 +622,6 @@
                     </div>
                 </uib-accordion-group>
             </uib-accordion>
-        </div>
-
-        <div ng-show="subSection == 'strings'">
-            <h3>
-                <i class="fa fa-fw fa-file-text-o"></i>
-                Strings
-                <div class="pull-right col-md-5 col-lg-5 col-xs-12 pl0 pr0">
-                    <form ng-submit="filterStrings()">
-                        <div class="input-group">
-                            <input type="text" ng-model="$parent.stringsFilter" name="stringsFilter" class="form-control input-sm"
-                                   placeholder="Filter by...">
-                            <span class="input-group-btn">
-								<button class="btn btn-default btn-sm" type="submit">Filter</button>
-							</span>
-                        </div>
-                    </form>
-                </div>
-                <div class="clearfix"></div>
-            </h3>
-
-            <div ng-show="gettingStrings" class="text-center">
-                <div class="col-md-6 col-md-offset-3">
-                    <h3>
-                        Loading strings. This can take several minutes.
-                    </h3>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
-                            <span class="sr-only">45% Complete</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="max-height: 500px; overflow-y:auto;">
-                <table class="table table-striped">
-                    <tbody>
-                    <tr ng-repeat="string in strings track by $index">
-                        <td style="padding:4px 4px 4px 10px">
-                            {{ string }}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- <pre class="mt" style="background:white; max-height: 500px;" ng-show="!gettingStrings">{{ strings }}</pre> -->
-
-            <div class="row" ng-show="!gettingStrings">
-                <div class="pull-right text-right pr">
-                    <uib-pagination total-items="totalStrings" items-per-page="stringsPerPage"
-                                    ng-model="$parent.currentStringsPage" ng-change="stringsPageChanged()" max-size="5"
-                                    class="pagination-sm" boundary-links="true"></uib-pagination>
-                </div>
-            </div>
         </div>
 
         <div ng-show="subSection == 'json'">

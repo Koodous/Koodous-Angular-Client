@@ -130,14 +130,14 @@ angular.module('services.api', [])
             var sha256 = sha256_digest(reader.result);
             var request = KoodousAPI.getAPKUploadUrl(sha256);
 
-            request.success(function(data){                
+            request.success(function(data){
                 var upload_url = data.upload_url;
                 if (!upload_url)
                 {
                     console.error("KoodousAPI.uploadAPK: No hay url de subida");
                     return false;
                 }
-                
+
                 //Subida de archivo con Jquery
                 var formData = new FormData();
                 formData.append('file', file);
@@ -172,7 +172,7 @@ angular.module('services.api', [])
                     },
                     success: function(data)
                     {
-                        
+
                     },
                     error: function(data)
                     {
@@ -261,28 +261,6 @@ angular.module('services.api', [])
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/apks/' + sha256 + '/analyze',
-        });
-
-        return request;
-    };
-
-    KoodousAPI.getApkStrings = function(sha256, page, perPage, filters, cache){
-        var data = {};
-        page = page ? page : 0;
-        var page_size = perPage ? perPage : 100;
-        cache = cache ? cache : false;
-
-        var url = KoodousAPI.base_api_url + '/apks/' + sha256 + '/strings?page='+page;
-
-        for (var property in filters){
-            if (filters[property] !== ''){
-                url += "&" + property + "=" + filters[property];
-            }
-        }
-
-        var request = $http({
-            method: 'GET',
-            url: url,
         });
 
         return request;
@@ -429,7 +407,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getAPKComments = function(sha256, url, filters){
         var data = {};
-        
+
         url = url ? url : KoodousAPI.base_api_url + '/apks/' + sha256 + '/comments?cursor=';
 
         for (var property in filters){
@@ -627,7 +605,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getUserComments = function(username, url, filters){
         var data = {};
-        
+
         url = url ? url : KoodousAPI.base_api_url + '/analysts/'+username+'/comments?cursor=';
 
         for (var property in filters){
@@ -829,7 +807,7 @@ angular.module('services.api', [])
 
     KoodousAPI.updateAvatar = function(username, file){
         var url = KoodousAPI.base_api_url + "/analysts/"+ username;
-        
+
         var request = $upload.upload({
             url: url,
             method: 'PATCH',
@@ -842,7 +820,7 @@ angular.module('services.api', [])
 
     KoodousAPI.updateUserInfo = function(user){
         var url = KoodousAPI.base_api_url + "/analysts/"+ user.username;
-        
+
         var request = $upload.upload({
             url: url,
             method: 'PATCH',
@@ -865,7 +843,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getAnalystActivity = function(username, url, filters){
         var data = {};
-        
+
         url = url ? url : KoodousAPI.base_api_url + '/analysts/'+username+'/activity?cursor=';
 
         for (var property in filters){
@@ -920,7 +898,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getUserApkVote = function(sha256){
         var data = {};
-        
+
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/apks/'+sha256+'/user_vote',
@@ -930,7 +908,7 @@ angular.module('services.api', [])
     };
     KoodousAPI.getUserRulesetVote = function(ruleset_id){
         var data = {};
-        
+
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/public_rulesets/'+ruleset_id+'/user_vote',
@@ -941,7 +919,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getLinkDeviceToken = function(){
         var data = {};
-        
+
         var request = $http({
             method: 'POST',
             url: KoodousAPI.base_api_url + '/device_link',
@@ -952,7 +930,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getInvitations = function(){
         var data = {};
-        
+
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/invitations',
@@ -980,7 +958,7 @@ angular.module('services.api', [])
 
     KoodousAPI.getUserDevices = function(){
         var data = {};
-        
+
         var request = $http({
             method: 'GET',
             url: KoodousAPI.base_api_url + '/devices',
